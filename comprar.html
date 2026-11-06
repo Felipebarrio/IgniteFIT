@@ -1,0 +1,1404 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finalizar compra | IgniteFIT</title>
+
+  <style>
+    :root {
+      --blue: #0789ff;
+      --cyan: #00d9ff;
+      --bg: #173875;
+      --navy: #030b16;
+      --card: #101f35;
+      --input: #091629;
+      --border: #29415f;
+      --text: #f5f8ff;
+      --muted: #aabbd2;
+      --green: #22d99a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: linear-gradient(135deg, #203f83, #102653 60%, #07182c);
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    /* NAVBAR IGUAL AO DA IMAGEM DE REFERÊNCIA */
+    .navbar {
+      width: 100%;
+      height: 48px;
+      padding: 0 44px;
+      background: #030b16;
+      border-bottom: 2px solid #0789ff;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 44px;
+      position: relative;
+      z-index: 100;
+    }
+
+    .logo {
+      color: white;
+      font-size: 16px;
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+      letter-spacing: -.5px;
+    }
+
+    .logo span {
+      color: var(--blue);
+    }
+
+    .nav-links {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      color: #f5f7fb;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      transition: color .2s;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--blue);
+    }
+
+    /* CONTEÚDO */
+    .container {
+      width: min(1120px, 92%);
+      margin: 38px auto 60px;
+    }
+
+    .heading {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .heading h1 {
+      font-size: clamp(28px, 4vw, 38px);
+      margin-bottom: 10px;
+    }
+
+    .heading h1 span {
+      color: #37a9ff;
+    }
+
+    .heading p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(300px, .85fr);
+      align-items: start;
+      gap: 24px;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 14px 35px #0002;
+    }
+
+    .panel + .panel {
+      margin-top: 20px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 19px;
+      margin-bottom: 21px;
+    }
+
+    .section-number {
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      background: #073e77;
+      border: 1px solid var(--blue);
+      border-radius: 9px;
+      color: var(--cyan);
+      font-weight: bold;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .field {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      color: #dce8f8;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    input, select {
+      width: 100%;
+      height: 45px;
+      padding: 0 13px;
+      color: white;
+      background: var(--input);
+      border: 1px solid #30445f;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    input::placeholder {
+      color: #71839b;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px #0789ff20;
+    }
+
+    select option {
+      background: var(--card);
+    }
+
+    /* PAGAMENTO */
+    .payment-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px;
+      margin-bottom: 22px;
+    }
+
+    .payment-option {
+      position: relative;
+      min-height: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px;
+      text-align: center;
+      background: #0a1729;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .payment-option:hover {
+      border-color: var(--blue);
+    }
+
+    .payment-option.active {
+      border: 2px solid var(--blue);
+      background: #0b2b4d;
+    }
+
+    .payment-option input {
+      position: absolute;
+      opacity: 0;
+      width: 1px;
+      height: 1px;
+    }
+
+    .payment-option:has(input:focus-visible) {
+      outline: 2px solid white;
+      outline-offset: 3px;
+    }
+
+    .payment-icon {
+      font-size: 26px;
+    }
+
+    .payment-option strong {
+      font-size: 15px;
+    }
+
+    .payment-option small {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .payment-content {
+      display: none;
+    }
+
+    .payment-content.active {
+      display: block;
+    }
+
+    .pix-info {
+      padding: 20px;
+      background: #0a192b;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .pix-info h3 {
+      color: var(--cyan);
+      margin-bottom: 12px;
+    }
+
+    .pix-info p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .pix-steps {
+      list-style: none;
+      margin-top: 18px;
+      display: grid;
+      gap: 13px;
+    }
+
+    .pix-steps li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .check {
+      color: var(--green);
+      font-weight: bold;
+    }
+
+    .discount {
+      display: inline-block;
+      margin-top: 13px;
+      padding: 5px 9px;
+      color: var(--green);
+      background: #12382f;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    /* CARTÃO */
+    .card-preview {
+      min-height: 170px;
+      padding: 20px;
+      margin-bottom: 22px;
+      border-radius: 14px;
+      border: 1px solid #2769a4;
+      background:
+        radial-gradient(circle at 90% 10%, #087fff66, transparent 45%),
+        linear-gradient(130deg, #071321, #123c72);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .chip {
+      font-size: 23px;
+    }
+
+    .card-number-preview {
+      letter-spacing: 2px;
+      font-size: 17px;
+      overflow-wrap: anywhere;
+    }
+
+    .card-bottom {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: #d7e7fa;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .card-bottom span {
+      display: block;
+      margin-top: 5px;
+      color: white;
+      font-size: 13px;
+    }
+
+    .card-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .card-fields .full {
+      grid-column: 1 / -1;
+    }
+
+    .helper {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      margin-top: 14px;
+    }
+
+    /* RESUMO DO PEDIDO */
+    .summary {
+      position: sticky;
+      top: 20px;
+    }
+
+    .product {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .product-image {
+      width: 90px;
+      height: 105px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: linear-gradient(145deg, #1b2b41, #071321);
+      font-size: 38px;
+    }
+
+    .product-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .product-info h3 {
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+
+    .product-info p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .product-price {
+      color: var(--cyan);
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .summary-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 19px;
+      font-size: 14px;
+    }
+
+    .summary-row > span {
+      color: var(--muted);
+    }
+
+    .summary-row strong {
+      text-align: right;
+    }
+
+    .summary-row.total {
+      padding-top: 19px;
+      border-top: 1px solid var(--border);
+      font-size: 18px;
+    }
+
+    .summary-row.total strong {
+      color: var(--cyan);
+      font-size: 25px;
+    }
+
+    .discount-row strong {
+      color: var(--green);
+    }
+
+    .coupon {
+      display: flex;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .coupon input {
+      min-width: 0;
+    }
+
+    .btn-secondary {
+      padding: 0 14px;
+      color: white;
+      background: #0c3157;
+      border: 1px solid #167fff;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background: #164575;
+    }
+
+    .main-button {
+      width: 100%;
+      min-height: 49px;
+      margin-top: 23px;
+      border: none;
+      border-radius: 9px;
+      color: white;
+      background: linear-gradient(90deg, #087cff, #199eff);
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .main-button:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .terms {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .terms input {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      accent-color: var(--blue);
+    }
+
+    .security-note {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      padding: 13px;
+      border-radius: 9px;
+      background: #0b2d28;
+      color: #a8f7da;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .notice {
+      display: none;
+      margin-top: 16px;
+      padding: 13px;
+      border-radius: 9px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .notice.show {
+      display: block;
+    }
+
+    .notice.error {
+      color: #ffc4c4;
+      background: #401d29;
+      border: 1px solid #81394a;
+    }
+
+    .notice.success {
+      color: #b3f8dc;
+      background: #10382e;
+      border: 1px solid #21775d;
+    }
+
+    .footer {
+      padding: 25px;
+      text-align: center;
+      background: var(--navy);
+      border-top: 1px solid var(--blue);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .footer strong {
+      color: white;
+    }
+
+    @media (max-width: 850px) {
+      .checkout-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .summary {
+        position: static;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .navbar {
+        height: auto;
+        min-height: 48px;
+        padding: 12px 16px;
+        flex-wrap: wrap;
+        gap: 12px 24px;
+      }
+
+      .nav-links {
+        width: 100%;
+        height: auto;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0;
+      }
+
+      .nav-links a {
+        min-height: 30px;
+        font-size: 12px;
+      }
+
+      .container {
+        margin-top: 25px;
+      }
+
+      .panel {
+        padding: 18px;
+      }
+
+      .form-grid,
+      .card-fields {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full,
+      .card-fields .full {
+        grid-column: auto;
+      }
+
+      .payment-options {
+        gap: 8px;
+      }
+
+      .payment-option {
+        padding: 12px 6px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR ORIGINAL DA INTERFACE -->
+  <header class="navbar">
+    <a href="index.html" class="logo">
+      ignite<span>FIT</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Navegação principal">
+      <a href="index.html">Home</a>
+      <a href="produtos.html" class="active">Produtos</a>
+      <a href="contato.html">Contato</a>
+      <a href="login.html">Cadastro/Login</a>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <div class="heading">
+      <h1>Finalizar <span>compra</span></h1>
+      <p>Falta pouco para você vestir sua evolução.</p>
+    </div>
+
+    <form id="checkoutForm" novalidate>
+      <div class="checkout-grid">
+
+        <div class="checkout-main">
+
+          <!-- 1. DADOS PESSOAIS -->
+          <section class="panel">
+            <h2 class="section-title">
+              <span class="section-number">1</span>
+              Dados pessoais
+            </h2>
+
+            <div class="form-grid">
+              <div class="field full">
+                <label for="name">Nome completo</label>
+                <input id="name" name="name" autocomplete="name"
+                  placeholder="Digite seu nome completo" required>
+              </div>
+
+              <div class="field">
+                <label for="email">E-mail</label>
+                <input id="email" name="email" type="email"
+                  autocomplete="email" placeholder="voce@email.com" required>
+              </div>
+
+              <div class="field">
+                <label for="phone">Celular</label>
+                <input id="phone" name="phone" type="tel"
+                  autocomplete="tel" placeholder="(11) 99999-9999"
+                  maxlength="15" required>
+              </div>
+
+              <div class="field full">
+                <label for="cpf">CPF</label>
+                <input id="cpf" name="cpf" inputmode="numeric"
+                  autocomplete="off" placeholder="000.000.000-00"
+                  maxlength="14" required>
+              </div>
+            </div>
+          </section>
+
+          <!-- 2. ENDEREÇO -->
+          <section class="panel">
+            <h2 class="section-title">
+              <span class="section-number">2</span>
+              Endereço de entrega
+            </h2>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="cep">CEP</label>
+                <input id="cep" name="cep" inputmode="numeric"
+                  autocomplete="postal-code" maxlength="9"
+                  placeholder="00000-000" required>
+              </div>
+
+              <div class="field">
+                <label for="state">Estado</label>
+                <select id="state" name="state"
+                  autocomplete="address-level1" required>
+                  <option value="">Selecione</option>
+                  <option value="AC">Acre</option>
+                  <option value="AL">Alagoas</option>
+                  <option value="AP">Amapá</option>
+                  <option value="AM">Amazonas</option>
+                  <option value="BA">Bahia</option>
+                  <option value="CE">Ceará</option>
+                  <option value="DF">Distrito Federal</option>
+                  <option value="ES">Espírito Santo</option>
+                  <option value="GO">Goiás</option>
+                  <option value="MA">Maranhão</option>
+                  <option value="MT">Mato Grosso</option>
+                  <option value="MS">Mato Grosso do Sul</option>
+                  <option value="MG">Minas Gerais</option>
+                  <option value="PA">Pará</option>
+                  <option value="PB">Paraíba</option>
+                  <option value="PR">Paraná</option>
+                  <option value="PE">Pernambuco</option>
+                  <option value="PI">Piauí</option>
+                  <option value="RJ">Rio de Janeiro</option>
+                  <option value="RN">Rio Grande do Norte</option>
+                  <option value="RS">Rio Grande do Sul</option>
+                  <option value="RO">Rondônia</option>
+                  <option value="RR">Roraima</option>
+                  <option value="SC">Santa Catarina</option>
+                  <option value="SP">São Paulo</option>
+                  <option value="SE">Sergipe</option>
+                  <option value="TO">Tocantins</option>
+                </select>
+              </div>
+
+              <div class="field full">
+                <label for="street">Rua / Avenida</label>
+                <input id="street" name="street"
+                  autocomplete="address-line1"
+                  placeholder="Nome da rua" required>
+              </div>
+
+              <div class="field">
+                <label for="number">Número</label>
+                <input id="number" name="number"
+                  placeholder="Número" required>
+              </div>
+
+              <div class="field">
+                <label for="complement">Complemento</label>
+                <input id="complement" name="complement"
+                  placeholder="Apto, bloco (opcional)">
+              </div>
+
+              <div class="field">
+                <label for="district">Bairro</label>
+                <input id="district" name="district"
+                  placeholder="Seu bairro" required>
+              </div>
+
+              <div class="field">
+                <label for="city">Cidade</label>
+                <input id="city" name="city"
+                  autocomplete="address-level2"
+                  placeholder="Sua cidade" required>
+              </div>
+            </div>
+          </section>
+
+          <!-- 3. PAGAMENTO -->
+          <section class="panel">
+            <h2 class="section-title">
+              <span class="section-number">3</span>
+              Forma de pagamento
+            </h2>
+
+            <div class="payment-options">
+
+              <label class="payment-option active" id="pixOption">
+                <input type="radio" name="payment" value="pix" checked>
+                <span class="payment-icon" aria-hidden="true">▦</span>
+                <strong>Pix</strong>
+                <small>Pagamento instantâneo</small>
+              </label>
+
+              <label class="payment-option" id="cardOption">
+                <input type="radio" name="payment" value="card">
+                <span class="payment-icon" aria-hidden="true">▰</span>
+                <strong>Cartão de crédito</strong>
+                <small>Parcele sua compra</small>
+              </label>
+
+            </div>
+
+            <!-- OPÇÃO PIX -->
+            <div class="payment-content active" id="pixContent">
+              <div class="pix-info">
+                <h3>Pagamento via Pix</h3>
+                <p>
+                  Ao continuar, você poderá gerar seu pagamento Pix
+                  por meio do provedor de pagamento da loja.
+                </p>
+
+                <span class="discount">Prático e rápido</span>
+
+                <ul class="pix-steps">
+                  <li>
+                    <span class="check">✓</span>
+                    <span>Confirme seus dados e endereço de entrega.</span>
+                  </li>
+                  <li>
+                    <span class="check">✓</span>
+                    <span>Gere o QR Code ou código Pix no provedor.</span>
+                  </li>
+                  <li>
+                    <span class="check">✓</span>
+                    <span>Faça o pagamento no aplicativo do seu banco.</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- OPÇÃO CARTÃO -->
+            <div class="payment-content" id="cardContent">
+
+              <div class="card-preview">
+                <div class="chip">
+                  ▦ <span style="float:right">igniteFIT</span>
+                </div>
+
+                <div class="card-number-preview" id="previewNumber">
+                  •••• •••• •••• ••••
+                </div>
+
+                <div class="card-bottom">
+                  <div>
+                    Nome no cartão
+                    <span id="previewName">SEU NOME</span>
+                  </div>
+                  <div>
+                    Validade
+                    <span id="previewExpiry">MM/AA</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-fields">
+                <div class="field full">
+                  <label for="holder">Nome impresso no cartão</label>
+                  <input id="holder" autocomplete="cc-name"
+                    placeholder="NOME COMO ESTÁ NO CARTÃO">
+                </div>
+
+                <div class="field full">
+                  <label for="cardNumber">Número do cartão</label>
+                  <input id="cardNumber" inputmode="numeric"
+                    autocomplete="cc-number" maxlength="23"
+                    placeholder="0000 0000 0000 0000">
+                </div>
+
+                <div class="field">
+                  <label for="expiry">Validade</label>
+                  <input id="expiry" autocomplete="cc-exp"
+                    inputmode="numeric" maxlength="5" placeholder="MM/AA">
+                </div>
+
+                <div class="field">
+                  <label for="cvv">CVV</label>
+                  <input id="cvv" autocomplete="cc-csc"
+                    inputmode="numeric" maxlength="4" placeholder="123">
+                </div>
+
+                <div class="field full">
+                  <label for="installments">Parcelamento</label>
+                  <select id="installments">
+                    <option value="1">1x sem juros</option>
+                    <option value="2">2x sem juros</option>
+                    <option value="3">3x sem juros</option>
+                    <option value="4">4x sem juros</option>
+                    <option value="5">5x sem juros</option>
+                    <option value="6">6x sem juros</option>
+                  </select>
+                </div>
+              </div>
+
+              <p class="helper">
+                Demonstração visual. Para processar pagamentos reais,
+                utilize os campos seguros e a tokenização do gateway.
+              </p>
+            </div>
+
+            <div id="notice" class="notice" role="status"
+              aria-live="polite"></div>
+
+            <label class="terms">
+              <input type="checkbox" id="terms" required>
+              <span>
+                Confirmo meus dados e aceito os termos de compra
+                e a política de privacidade da loja.
+              </span>
+            </label>
+
+            <button type="submit" class="main-button" id="submitButton">
+              Continuar para pagamento Pix
+            </button>
+
+            <div class="security-note">
+              <span>🔒</span>
+              <span>
+                <strong>Compra protegida</strong><br>
+                Esta interface é uma demonstração. Nenhuma cobrança
+                será realizada sem integração com um provedor.
+              </span>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- RESUMO DO PEDIDO -->
+        <aside class="summary">
+
+          <section class="panel">
+            <h2 class="section-title">Resumo do pedido</h2>
+
+            <div class="product">
+              <div class="product-image" aria-hidden="true">👕</div>
+
+              <div class="product-info">
+                <h3 id="productName">Camiseta Dry Fit</h3>
+                <p>Cor: Preto</p>
+                <p>Tamanho: M</p>
+                <p>Quantidade: 1 unidade</p>
+                <div class="product-price" id="productPrice">
+                  R$ 99,90
+                </div>
+              </div>
+            </div>
+
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <strong id="subtotal">R$ 99,90</strong>
+            </div>
+
+            <div class="summary-row">
+              <span>Frete</span>
+              <strong id="shipping">A calcular</strong>
+            </div>
+
+            <div class="summary-row discount-row" id="discountRow"
+              style="display:none">
+              <span>Desconto</span>
+              <strong id="discount">− R$ 0,00</strong>
+            </div>
+
+            <div class="coupon">
+              <input type="text" id="coupon"
+                placeholder="Cupom de desconto"
+                aria-label="Cupom de desconto">
+              <button class="btn-secondary" type="button"
+                id="applyCoupon">Aplicar</button>
+            </div>
+
+            <p id="couponMessage" class="helper"
+              aria-live="polite"></p>
+
+            <div class="summary-row total">
+              <span>Total</span>
+              <strong id="total">R$ 99,90</strong>
+            </div>
+
+            <p id="installmentSummary" class="helper">
+              Selecione a forma de pagamento.
+            </p>
+          </section>
+
+          <section class="panel">
+            <h3 style="font-size:16px;margin-bottom:14px">
+              Por que comprar na IgniteFIT?
+            </h3>
+
+            <ul class="pix-steps">
+              <li>
+                <span>🚚</span>
+                <span>
+                  <strong>Entrega acompanhada</strong><br>
+                  <span style="color:var(--muted)">
+                    Acompanhe o envio após a confirmação do pedido.
+                  </span>
+                </span>
+              </li>
+
+              <li>
+                <span>🔒</span>
+                <span>
+                  <strong>Pagamento seguro</strong><br>
+                  <span style="color:var(--muted)">
+                    Processamento por um provedor integrado.
+                  </span>
+                </span>
+              </li>
+
+              <li>
+                <span>💙</span>
+                <span>
+                  <strong>Vista sua evolução</strong><br>
+                  <span style="color:var(--muted)">
+                    Estilo, conforto e performance no seu ritmo.
+                  </span>
+                </span>
+              </li>
+            </ul>
+          </section>
+
+        </aside>
+      </div>
+    </form>
+  </main>
+
+  <footer class="footer">
+    <strong>igniteFIT</strong> — Vista sua evolução.<br>
+    © 2026 IgniteFIT. Todos os direitos reservados.
+  </footer>
+
+  <script>
+    /*
+      CONFIGURAÇÃO DO PRODUTO DE DEMONSTRAÇÃO.
+      Em produção, carregue o produto pelo backend e valide o preço
+      no servidor. Não confie em valores enviados pelo navegador.
+    */
+    const PRODUCT = {
+      name: "Camiseta Dry Fit",
+      price: 99.90,
+      quantity: 1
+    };
+
+    // null significa que o frete ainda não foi calculado.
+    const SHIPPING = null;
+
+    // Não há desconto Pix configurado nesta demonstração.
+    const PIX_DISCOUNT_RATE = 0;
+
+    // Exemplo de cupom; valide os cupons no servidor em produção.
+    const COUPONS = {
+      "BEMVINDO10": 0.10
+    };
+
+    const $ = id => document.getElementById(id);
+    const form = $("checkoutForm");
+    const notice = $("notice");
+
+    let selectedPayment = "pix";
+    let couponRate = 0;
+
+    const money = value =>
+      value.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+      });
+
+    function getTotals() {
+      const subtotal = PRODUCT.price * PRODUCT.quantity;
+      const shipping = SHIPPING === null ? 0 : SHIPPING;
+      const couponDiscount = subtotal * couponRate;
+      const pixDiscount = selectedPayment === "pix"
+        ? subtotal * PIX_DISCOUNT_RATE
+        : 0;
+
+      return {
+        subtotal,
+        shipping,
+        couponDiscount,
+        pixDiscount,
+        total: Math.max(
+          0,
+          subtotal + shipping - couponDiscount - pixDiscount
+        )
+      };
+    }
+
+    function renderSummary() {
+      const t = getTotals();
+
+      $("productName").textContent = PRODUCT.name;
+      $("productPrice").textContent = money(PRODUCT.price * PRODUCT.quantity);
+      $("subtotal").textContent = money(t.subtotal);
+      $("shipping").textContent =
+        SHIPPING === null ? "A calcular" : money(t.shipping);
+
+      $("discountRow").style.display =
+        t.couponDiscount + t.pixDiscount > 0 ? "flex" : "none";
+
+      $("discount").textContent =
+        "− " + money(t.couponDiscount + t.pixDiscount);
+
+      $("total").textContent = money(t.total);
+
+      const installments = Number($("installments").value || 1);
+
+      $("installmentSummary").textContent =
+        selectedPayment === "card"
+          ? `${installments}x de ${money(t.total / installments)} (simulação).`
+          : "O valor final do Pix será confirmado no provedor.";
+
+      $("submitButton").textContent =
+        selectedPayment === "pix"
+          ? "Continuar para pagamento Pix"
+          : "Continuar para pagamento com cartão";
+    }
+
+    function hideNotice() {
+      notice.className = "notice";
+      notice.textContent = "";
+    }
+
+    function showNotice(message, type = "error") {
+      notice.textContent = message;
+      notice.className = "notice show " + type;
+      notice.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+    }
+
+    function setPayment(method) {
+      selectedPayment = method;
+
+      $("pixOption").classList.toggle("active", method === "pix");
+      $("cardOption").classList.toggle("active", method === "card");
+
+      $("pixContent").classList.toggle("active", method === "pix");
+      $("cardContent").classList.toggle("active", method === "card");
+
+      ["holder", "cardNumber", "expiry", "cvv"].forEach(id => {
+        $(id).required = method === "card";
+      });
+
+      hideNotice();
+      renderSummary();
+    }
+
+    document.querySelectorAll('input[name="payment"]').forEach(input => {
+      input.addEventListener("change", () => setPayment(input.value));
+    });
+
+    $("installments").addEventListener("change", renderSummary);
+
+    function digits(value) {
+      return value.replace(/\D/g, "");
+    }
+
+    function maskInput(id, formatter) {
+      $(id).addEventListener("input", event => {
+        event.target.value = formatter(event.target.value);
+      });
+    }
+
+    maskInput("phone", value => {
+      const v = digits(value).slice(0, 11);
+
+      if (v.length > 10) {
+        return v.replace(
+          /^(\d{2})(\d{5})(\d{0,4}).*/,
+          "($1) $2-$3"
+        );
+      }
+
+      if (v.length > 6) {
+        return v.replace(
+          /^(\d{2})(\d{4})(\d{0,4}).*/,
+          "($1) $2-$3"
+        );
+      }
+
+      if (v.length > 2) {
+        return v.replace(/^(\d{2})(\d*)/, "($1) $2");
+      }
+
+      return v;
+    });
+
+    maskInput("cpf", value => {
+      let v = digits(value).slice(0, 11);
+      v = v.replace(/(\d{3})(\d)/, "$1.$2");
+      v = v.replace(/(\d{3})(\d)/, "$1.$2");
+      v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+      return v;
+    });
+
+    maskInput("cep", value => {
+      return digits(value)
+        .slice(0, 8)
+        .replace(/^(\d{5})(\d)/, "$1-$2");
+    });
+
+    maskInput("cardNumber", value => {
+      return digits(value)
+        .slice(0, 19)
+        .replace(/(\d{4})(?=\d)/g, "$1 ");
+    });
+
+    maskInput("expiry", value => {
+      let v = digits(value).slice(0, 4);
+      if (v.length > 2) {
+        v = v.slice(0, 2) + "/" + v.slice(2);
+      }
+      return v;
+    });
+
+    maskInput("cvv", value => digits(value).slice(0, 4));
+
+    $("holder").addEventListener("input", event => {
+      $("previewName").textContent =
+        event.target.value.trim().toUpperCase() || "SEU NOME";
+    });
+
+    $("cardNumber").addEventListener("input", event => {
+      // Apenas prévia visual. Não use esse campo para cobrar em produção.
+      $("previewNumber").textContent =
+        event.target.value || "•••• •••• •••• ••••";
+    });
+
+    $("expiry").addEventListener("input", event => {
+      $("previewExpiry").textContent = event.target.value || "MM/AA";
+    });
+
+    $("applyCoupon").addEventListener("click", () => {
+      const code = $("coupon").value.trim().toUpperCase();
+      const message = $("couponMessage");
+
+      if (!code) {
+        message.style.color = "#ffc4c4";
+        message.textContent = "Digite um cupom.";
+        return;
+      }
+
+      if (COUPONS[code] !== undefined) {
+        couponRate = COUPONS[code];
+        message.style.color = "#22d99a";
+        message.textContent = "Cupom aplicado na simulação.";
+      } else {
+        couponRate = 0;
+        message.style.color = "#ffc4c4";
+        message.textContent = "Cupom inválido ou indisponível.";
+      }
+
+      renderSummary();
+    });
+
+    function isValidCPF(value) {
+      const cpf = digits(value);
+
+      if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
+        return false;
+      }
+
+      for (let t = 9; t < 11; t++) {
+        let sum = 0;
+
+        for (let i = 0; i < t; i++) {
+          sum += Number(cpf[i]) * (t + 1 - i);
+        }
+
+        let digit = (sum * 10) % 11;
+        if (digit === 10) digit = 0;
+
+        if (digit !== Number(cpf[t])) return false;
+      }
+
+      return true;
+    }
+
+    function luhnCheck(value) {
+      const number = digits(value);
+
+      if (number.length < 13 || number.length > 19) {
+        return false;
+      }
+
+      let sum = 0;
+      let doubleDigit = false;
+
+      for (let i = number.length - 1; i >= 0; i--) {
+        let n = Number(number[i]);
+
+        if (doubleDigit) {
+          n *= 2;
+          if (n > 9) n -= 9;
+        }
+
+        sum += n;
+        doubleDigit = !doubleDigit;
+      }
+
+      return sum % 10 === 0;
+    }
+
+    function validExpiry(value) {
+      const match = value.match(/^(\d{2})\/(\d{2})$/);
+      if (!match) return false;
+
+      const month = Number(match[1]);
+      const year = 2000 + Number(match[2]);
+
+      if (month < 1 || month > 12) return false;
+
+      const now = new Date();
+      const expiryDate = new Date(year, month, 1);
+      const currentMonth = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        1
+      );
+
+      return expiryDate > currentMonth;
+    }
+
+    function validateCheckout() {
+      if (!form.reportValidity()) return false;
+
+      if (!isValidCPF($("cpf").value)) {
+        showNotice("Confira o CPF informado.");
+        $("cpf").focus();
+        return false;
+      }
+
+      if (digits($("phone").value).length < 10) {
+        showNotice("Informe um número de celular válido.");
+        $("phone").focus();
+        return false;
+      }
+
+      if (digits($("cep").value).length !== 8) {
+        showNotice("Informe um CEP válido.");
+        $("cep").focus();
+        return false;
+      }
+
+      if (selectedPayment === "card") {
+        if (!luhnCheck($("cardNumber").value)) {
+          showNotice("Confira o número do cartão.");
+          $("cardNumber").focus();
+          return false;
+        }
+
+        if (!validExpiry($("expiry").value)) {
+          showNotice("Confira a validade do cartão.");
+          $("expiry").focus();
+          return false;
+        }
+
+        const cvv = digits($("cvv").value);
+
+        if (cvv.length < 3 || cvv.length > 4) {
+          showNotice("Confira o código de segurança do cartão.");
+          $("cvv").focus();
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      hideNotice();
+
+      if (!validateCheckout()) return;
+
+      /*
+        DEMONSTRAÇÃO:
+        Nenhum pagamento é processado.
+        Conecte esta etapa ao backend e ao gateway de pagamentos.
+        Em produção, os dados do cartão devem ser capturados pelos
+        componentes seguros do provedor, não por estes inputs.
+      */
+
+      if (selectedPayment === "pix") {
+        showNotice(
+          "Validação concluída na demonstração. Nenhum Pix foi gerado. " +
+          "Integre um gateway para criar a cobrança e exibir o QR Code.",
+          "success"
+        );
+      } else {
+        showNotice(
+          "Validação concluída na demonstração. Nenhuma cobrança foi feita. " +
+          "Integre um gateway com campos seguros de cartão.",
+          "success"
+        );
+      }
+    });
+
+    renderSummary();
+  </script>
+
+</body>
+</html>
